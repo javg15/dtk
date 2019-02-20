@@ -27,12 +27,18 @@
     <!-- Animation Css -->
     <link href="{{ asset('plugins/animate-css/animate.css') }}" rel="stylesheet" />
 	
+    <!-- Bootstrap Select Css -->
+    <link href="{{ asset('plugins/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    
     <!-- Datetime picker  -->
     <link href="{{ asset('plugins/eonasdan-datetimepicker/css/bootstrap-datetimepicker.css')}}"/>    
     
     <!-- Menu Css -->
     <link href="{{ asset('plugins/menu-hc-offcanvas-nav/hc-offcanvas-nav.css') }}" rel="stylesheet">
 	
+    <!-- Sweet alert-->
+    <link href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
+    
 	<!-- Menu Css -->
 	<link href="{{ asset('css/style.css') }}" rel="stylesheet">
 	
@@ -85,10 +91,17 @@
     <script src="{{ asset('plugins/momentjs/numeral.min.js') }}"></script>
     
     <!-- Datetime picker Js -->
-    <script src="{{ asset('plugins/eonasdan-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>    
+    <script src="{{ asset('plugins/eonasdan-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
+    
+    <!-- Sweet alert-->
+    <script src="{{ asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>    
+    
+    <!-- Block UI-->
+    <script src="{{ asset('plugins/jquery-blockUI/jquery.blockUI.js')}}"></script>
 	
     <!-- Custom Js -->
     <script src="{{ asset('js/admin.js')}}"></script>
+    <script src="{{ asset('js/funcionesGlobales.js')}}"></script>
         
 @include('componentes.js')
 @yield('scripts')

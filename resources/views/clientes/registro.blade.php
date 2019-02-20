@@ -21,81 +21,89 @@
 			</div>
             <div class="row clearfix">
                 <div class="sm-12">
-                    <h3>Registro de movimientos</h3>
+                    <h3>Registro de movimientos - {{  Session::get('idesc_clieprov') }}</h3>
                 </div>                     
             </div>
             <br /><br /><br />
-			<div class="row clearfix">
-                <div class="col-sm-1 align-right">
-					<label class="form-label">Fecha:</label>
-				</div>
-                <div  class="col-sm-2 align-left">
-                    <div class="form-group">
-                        <div class='input-group date form-line' id='fecha'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+            
+            <form id="frmMovimientos" class="formpage">
+    			<div class="row clearfix">
+                    <div class="col-sm-1 align-right">
+    					<label class="form-label">Fecha:</label>
+    				</div>
+                    <div  class="col-sm-2 align-left">
+                        <div class="form-group">
+                            <div class='input-group date form-line' id='fecha'>
+                                <input type='text' class="form-control" required />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-				<div class="col-sm-1 align-right">
-					<label class="form-label">Movimiento:</label>
-				</div>
-                <div  class="col-sm-2 align-left">
-                   <div class="form-group form-float">
-    					<select id="movimiento" class="selectpicker">
-                            <option value="1">Cargo</option>
-                            <option value="2">Abono</option>
-                        </select>
+    				<div class="col-sm-1 align-right">
+    					<label class="form-label">Movimiento:</label>
     				</div>
-                </div>
-
-				<div class="col-sm-1 align-right">
-					<label class="form-label">Cantidad:</label>
-				</div>
-                <div  class="col-sm-2 align-left">
-                   <div class="form-group form-float">
-    					<div class="form-line">
-    						<input 
-    							id          = "cantidad"
-    							name        = "cantidad"
-    							class       = "form-control input-md" 
-    							type        = "number"
-                                min         = "0"
-    							step        = "100.00"
-    							max         = "1000000.00"
-    						>
-    					</div>
+                    <div  class="col-sm-2 align-left">
+                       <div class="form-group form-float">
+        					<select id="movimiento" class="selectpicker" required>
+                                <option value=""></option>
+                                <option value="1">Cargo</option>
+                                <option value="2">Abono</option>
+                            </select>
+        				</div>
+                    </div>
+    
+    				<div class="col-sm-1 align-right">
+    					<label class="form-label">Cantidad:</label>
     				</div>
+                    <div  class="col-sm-2 align-left">
+                       <div class="form-group form-float">
+        					<div class="form-line">
+        						<input 
+        							id          = "cantidad"
+        							name        = "cantidad"
+        							class       = "form-control input-md" 
+        							type        = "number"
+                                    min         = "0"
+        							max         = "999999999.00"
+                                    
+                                    required
+        						>
+        					</div>
+        				</div>
+                    </div>
+                    
                 </div>
-                
-            </div>
-            <div class="row clearfix">
-                <div class="col-sm-1 align-right">
-					<label class="form-label">Concepto:</label>
-				</div>
-                <div  class="col-sm-4 align-left">
-                    <div class="form-group">
-                        <div class="form-line">
-    						<input 
-    							id          = "idesc"
-    							name        = "idesc"
-    							class       = "form-control input-md" 
-    							type        = "text"
-    						>
-    					</div>
+                <div class="row clearfix">
+                    <div class="col-sm-1 align-right">
+    					<label class="form-label">Concepto:</label>
+    				</div>
+                    <div  class="col-sm-4 align-left">
+                        <div class="form-group">
+                            <div class="form-line">
+        						<input 
+        							id          = "concepto"
+        							name        = "concepto"
+        							class       = "form-control input-md" 
+        							type        = "text"
+                                    required
+                                    
+        						>
+        					</div>
+                        </div>
+                    </div>
+                    <div  class="col-sm-2 align-left">
+                    </div>
+                    <div  class="col-sm-2 align-left">
+                        <button id="btnguardar" type="button" class="btn bg-blue waves-effect" onclick="javascript:setMovimiento();">
+    						<i class="material-icons">save</i>
+    						<span>{{ __('Guardar') }}</span>
+    					</button>
                     </div>
                 </div>
-                <div  class="col-sm-2 align-left">
-                </div>
-                <div  class="col-sm-2 align-left">
-                    <button type="button" class="btn bg-blue waves-effect" onclick="javascript:setMovimiento();">
-						<i class="material-icons">save</i>
-						<span>{{ __('Guardar') }}</span>
-					</button>
-                </div>
-            </div>
+            </form>
+            
             <br />
             <div class="row clearfix">
                 <div class="sm-12">

@@ -16,6 +16,8 @@ $(document).ready(function(){
         defaultDate:moment()
     });
     
+    $('#movimiento').selectpicker();
+    
     CargarEdoCuenta()
 	
 });
@@ -30,7 +32,6 @@ function CargarEdoCuenta(){
 		type    : 'POST',
 		dataType: 'JSON',
         data: {
-					clieprov: 1,
 					fechainicio : '2019-01-01',
                     fechafin    : moment().format("YYYY-MM-DD"),
 				},
@@ -117,43 +118,62 @@ function pintaReporte(data){
  * =========================================================================
  */
 function setMovimiento(){
-    $.ajax({
-		url     : routes.urlJS+'/clientes/set_movimiento',
-		type    : 'POST',
-		dataType: 'JSON',
-        data: {
-					clieprov: 1,
-					fecha       : moment($("#fecha input").val(),"DD/MM/YYYY").format("YYYY-MM-DD"),
-                    cantidad    : $("#cantidad").val(),
-                    movimiento  : $("#movimiento").val(),
-				},
-		/* Si no hay errores de comunicación retorna success, aun cuando existan errores de validacion o de BD */
-		success : function (data) { 
-		  
-			/* Si la nueva UM se guardó sin problemas se le notifica al usuario  */
-			if (data['status'] == 'success')
-			{
-				/* Muestra jExcel con los datos recibidos */
-				$("#tab-content").html(pintaReporte(data));
-			/* Si hubo algún error se muestra al usuario para su correción */
-			} else {
-				swal({
-					type : 'error',
-					title: 'Oops...',
-					text : data.msg,
-				});
-			}	
-		},
-		error: function(data) {
-			/* Si existió algún otro tipo de error se muestra en la consola */
-			console.log(data)
-		}
-	});
+    var msg=validarForms();
+    if(msg==true){
+    
+        $.ajax({
+    		url     : routes.urlJS+'/clientes/set_movimiento',
+    		type    : 'POST',
+    		dataType: 'JSON',
+            data: {
+    					clieprov: 1,
+    					fecha       : moment($("#fecha input").val(),"DD/MM/YYYY").format("YYYY-MM-DD"),
+                        cantidad    : $("#cantidad").val(),
+                        movimiento  : $("#movimiento").val(),
+                        concepto    : $("#concepto").val(),
+    				},
+    		/* Si no hay errores de comunicación retorna success, aun cuando existan errores de validacion o de BD */
+    		success : function (data) { 
+    		  
+    			/* Si la nueva UM se guardó sin problemas se le notifica al usuario  */
+    			if (data['status'] == 'success')
+    			{
+    				/* Muestra jExcel con los datos recibidos */
+    				CargarEdoCuenta();
+    			/* Si hubo algún error se muestra al usuario para su correción */
+    			} else {
+    				swal({
+    					type : 'error',
+    					title: 'Existen errores de captura',
+    					html : data.msg,
+    				});
+    			}	
+    		},
+    		error: function(data) {
+    			/* Si existió algún otro tipo de error se muestra en la consola */
+    			console.log(data)
+    		}
+    	});
+     }
+}
+
+/**=========================================================================
+ * Validar controles
+ * =========================================================================
+ */
+
+function validarForms(){
+    var msg="";
+    if($("#frmMovimientos")[0].checkValidity()) {
+        return true;
+   	} 
+    $("#frmMovimientos")[0].reportValidity();
+    return false;
 }
 /**=========================================================================
  * Regresar al menu de productos
  * =========================================================================
  */
 function regresar(){
-    window.location.href = routes.urlJS+"/home";
+    window.location.href = routes.urlJS+"/clientes/admin";
 }

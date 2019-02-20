@@ -5,7 +5,7 @@
 
 		<ul class="first-nav">
           <li class="devices">
-			<a href="/clientes/registro">Registro de clientes</a>
+			<a href="/clientes/registro">Clientes</a>
 		  </li>
 		</ul>
 
