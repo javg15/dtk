@@ -1,0 +1,27 @@
+#messages-menu {
+  position:fixed;
+  top:150px;
+  /*background:#353535;*/
+  background:#fff;
+  margin:0;
+  height: 100%;
+  z-index: 2;
+}
+
+.table {
+  margin-bottom: 0px !important;
+}
+
+.btn-group,
+.btn-group-vertical {
+  box-shadow: none !important; 
+}
+
+@media (max-width: 767px) {
+  #main {
+    margin-top: 100px;
+  }
+  #messages-menu {
+    top:140px;
+  }
+}

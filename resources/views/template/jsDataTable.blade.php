@@ -1,0 +1,11 @@
+<script src="{{ asset('plugins/jquery-datatable/datatables.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/DataTables-1.10.16/js/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/Buttons-1.5.1/js/dataTables.buttons.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/Buttons-1.5.1/js/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/JSZip-2.5.0/jszip.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/pdfmake-0.1.32/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/pdfmake-0.1.32/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/Buttons-1.5.1/js/buttons.html5.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/Buttons-1.5.1/js/buttons.print.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/Select-1.2.5/js/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-datatable/plugins/sum.js') }}"></script>
