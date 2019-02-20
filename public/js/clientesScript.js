@@ -28,7 +28,7 @@ $(document).ready(function(){
  */
 function CargarEdoCuenta(){
     $.ajax({
-		url     : routes.urlJS+'/clientes/get_edocuenta',
+		url     : routes.urlJS+'clientes/get_edocuenta',
 		type    : 'POST',
 		dataType: 'JSON',
         data: {
@@ -67,14 +67,14 @@ function pintaReporte(data){
     var datos=Object.keys(data.datos).map(function(j){
         return data.datos[j]
     });
-    var headers=Object.keys(data.headers).map(function(j){
-        return data.headers[j]
-    });
     //
     var tabla="<table id='tablapromedios' class='tablaremision table table-striped table-bordered dataTable no-footer' role='grid' style='width: 100%;font-size: 12px;'><thead><tr>";
     
-    for(i=0;i<headers.length;i++)
-        tabla+="<th>"+data.headers[i]["concepto"] +"</th>";
+    for(i=0;i<data.headers.length;i++){
+        if(data.headers[i]["concepto"].toLowerCase()!="id")
+            tabla+="<th>"+data.headers[i]["concepto"] +"</th>";
+    }
+    tabla+="<th></th>";
         
     tabla+="</tr></thead>";
     
@@ -82,29 +82,39 @@ function pintaReporte(data){
     for(i=0;i<datos.length;i++){
         var clase="";
         tabla+="<tr>";
-        for(j=0;j<headers.length;j++){
-            var concepto=headers[j]["concepto"].toLowerCase();
-            if(concepto=='concepto'){
+        for(j=0;j<data.headers.length;j++){
+            var concepto=data.headers[j]["concepto"].toLowerCase();
+            //Mostrar en la etiqueta el primer saldo
+            if(concepto=='saldo' && i==0){
+                $("#saldofinal").html(numeral(datos[i][concepto]).format('$ 0,0.00'));
+            }
                 
-                posstyle=datos[i][concepto].indexOf("<class>");
-                if(posstyle>=0){
-                    posstyle+=7;
-                    clase=datos[i][concepto].substring(posstyle);
-                    datos[i][concepto]=datos[i][concepto].substring(0,posstyle-7)
+            if(concepto.toLowerCase()!="id"){
+                if(concepto=='concepto'){
+                    
+                    posstyle=datos[i][concepto].indexOf("<class>");
+                    if(posstyle>=0){
+                        posstyle+=7;
+                        clase=datos[i][concepto].substring(posstyle);
+                        datos[i][concepto]=datos[i][concepto].substring(0,posstyle-7)
+                    }
+                    
+                    tabla+="<td class='"+clase+"'>"+datos[i][concepto]+"</td>"
                 }
-                
-                tabla+="<td class='"+clase+"'>"+datos[i][concepto]+"</td>"
-            }
-            else if(concepto=='fecha'){
-                tabla+="<td class='"+clase+"'>"+datos[i][concepto]+"</td>"
-            }
-            else{
-                if(clase.indexOf("vacia")>=0)
-                    tabla+="<td>&nbsp;</td>"
-                else
-                    tabla+="<td class='"+clase+"' style='text-align:right;'>"+numeral(datos[i][concepto]).format('$ 0,0.00')+"</td>"
+                else if(concepto=='fecha'){
+                    tabla+="<td class='"+clase+"'>"+datos[i][concepto]+"</td>"
+                }
+                else{
+                    if(clase.indexOf("vacia")>=0)
+                        tabla+="<td>&nbsp;</td>"
+                    else
+                        tabla+="<td class='"+clase+"' style='text-align:right;'>"+numeral(datos[i][concepto]).format('$ 0,0.00')+"</td>"
+                }
             }
         }
+        tabla+='<td style="text-align:center;"><button type="button" class="btn bg-red waves-effect" onclick="javascript:quitarMovimiento('+ datos[i]["id"] +')">'
+					+'<span>Eliminar</span>'
+				   +'</button></td>';
         tabla+="</tr>";
     }
     tabla+="</tbody>"
@@ -158,6 +168,59 @@ function setMovimiento(){
 }
 
 /**=========================================================================
+ * Quitar
+ * =========================================================================
+ */
+
+function quitarMovimiento($id){
+    Swal.fire({
+          title: 'Eliminar movimiento',
+          html: 'Escribe la palabra <b>eliminar</b> y posteriormente haz clic en el boton "Continuar"',
+          input: 'text',
+          inputAttributes: {
+            autocapitalize: 'off'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Continuar',
+          showLoaderOnConfirm: true,
+          allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+          if (result.value.toLowerCase()=="eliminar") {
+            $.ajax({
+        		url     : routes.urlJS+'/clientes/quitar_movimiento',
+        		type    : 'POST',
+        		dataType: 'JSON',
+                data: {
+        					id: $id,
+				},
+        		/* Si no hay errores de comunicación retorna success, aun cuando existan errores de validacion o de BD */
+        		success : function (data) { 
+        		  
+        			/* Si la nueva UM se guardó sin problemas se le notifica al usuario  */
+        			if (data['status'] == 'success')
+        			{
+        				/* Muestra jExcel con los datos recibidos */
+        				CargarEdoCuenta();
+        			/* Si hubo algún error se muestra al usuario para su correción */
+        			} else {
+        				swal({
+        					type : 'error',
+        					title: 'Existen errores de captura',
+        					html : data.msg,
+        				});
+        			}	
+        		},
+        		error: function(data) {
+        			/* Si existió algún otro tipo de error se muestra en la consola */
+        			console.log(data)
+        		}
+        	});
+          }
+        })
+    
+    
+}
+/**=========================================================================
  * Validar controles
  * =========================================================================
  */
@@ -175,5 +238,5 @@ function validarForms(){
  * =========================================================================
  */
 function regresar(){
-    window.location.href = routes.urlJS+"/clientes/admin";
+    window.location.href = routes.urlJS+"clientes/admin";
 }

@@ -21,6 +21,8 @@ Route::get('/clientes/registro', 'ClientesController@registro')->name('registroC
 Route::post('/clientes/get_admin', 'ClientesController@get_admin')->name('get_adminClientes');
 Route::post('/clientes/get_edocuenta', 'ClientesController@get_edocuenta')->name('get_edocuentaClientes');
 Route::post('/clientes/set_movimiento', 'ClientesController@set_movimiento')->name('set_movimientoClientes');
+Route::post('/clientes/quitar_movimiento', 'ClientesController@quitar_movimiento')->name('quitar_movimientoClientes');
+
 
 Route::get('/inicio', 'MenuController@index')->name('inicio');
 

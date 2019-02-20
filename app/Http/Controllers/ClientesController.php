@@ -179,6 +179,46 @@ class ClientesController extends Controller
         }
 	}
     
+    /** 
+	 * ==================================================================== 
+	 * Quitar movimientos
+	 * 
+	 * @author Jaime VÃ¡zquez
+	 * ====================================================================
+	*/
+    public function quitar_movimiento(Request $request)
+	{
+        
+	       try{
+	           $objeto = Clieprovedocuenta::where('id', $request["id"])
+				    ->first();
+                if ( $objeto != null ){
+                        
+                    $objeto["state"]="E";
+                    //var_dump($objeto);
+            		$objeto -> save();
+                    
+                    /* Regreso la respuesta exitosa  */
+            		return response() -> json([
+            			'status'  => 'success',
+            			'msg'     => 'Movimiento eliminado con éxito.',
+            		]);
+                }
+                else{
+                    /* Regreso la respuesta exitosa  */
+            		return response() -> json([
+            			'status'  => 'error',
+            			'msg'     => 'Error al intentar eliminar el registro.',
+            		]);
+                }
+    		}
+    		catch (Exception $e) { return $e->getMessage();	}
+    
+    		
+    
+    		
+    }
+    
      /** 
 	 * ==================================================================== 
 	 * Validar entrada de datos

@@ -106,7 +106,7 @@ function pintaAdmin(data){
     $('#tablaadmin tbody').on( 'click', 'button', function () {
         var data = $('#tablaadmin').DataTable().row( $(this).parents('tr') ).data();
         
-        linkmenu(data.id,'/clientes/registro','');
+        linkmenu(data.id,routes.urlJS+'clientes/registro','');
     } );
 }
 
@@ -144,5 +144,5 @@ function linkmenu($id,$url,$href){
  * =========================================================================
  */
 function regresar(){
-    window.location.href = routes.urlJS+"/home";
+    window.location.href = routes.urlJS+"clientes/admin";
 }
