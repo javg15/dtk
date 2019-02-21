@@ -5,7 +5,7 @@
 
 		<ul class="first-nav">
           <li class="devices">
-			<a href="/clientes/registro">Clientes</a>
+			<a href="{{ route('adminClientes') }} ">Clientes</a>
 		  </li>
 		</ul>
 
