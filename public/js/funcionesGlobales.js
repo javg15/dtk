@@ -1,5 +1,10 @@
 /* Función para mosntrar un mensaje al enviar peticiones al servidor */
-var ajaxBlock = function () { $.blockUI({ message: 'Transfiriendo datos con el servidor...' }) }
+var ajaxBlock = function () { $.blockUI(
+    { message: 'Transfiriendo datos con el servidor...',
+        //theme: true,
+        baseZ: 2000 
+    }
+)}
 $(document).ajaxStart(ajaxBlock).ajaxStop($.unblockUI);
 
 /* Funcion que muestra una alerta de error en el mensaje enviado */
@@ -51,6 +56,24 @@ function validarInput(input) {
         return 'invalid';
     }
     return 'valid';
+}
+
+// call this before showing SweetAlert: para desbloquear el input
+function fixBootstrapModal() {
+  var modalNode = document.querySelector('.modal[tabindex="-1"]');
+  if (!modalNode) return;
+
+  modalNode.removeAttribute('tabindex');
+  modalNode.classList.add('js-swal-fixed');
+}
+
+// call this before hiding SweetAlert (inside done callback):
+function restoreBootstrapModal() {
+  var modalNode = document.querySelector('.modal.js-swal-fixed');
+  if (!modalNode) return;
+
+  modalNode.setAttribute('tabindex', '-1');
+  modalNode.classList.remove('js-swal-fixed');
 }
 
  

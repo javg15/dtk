@@ -5,7 +5,7 @@
  * Llamada generica a SP's 
  * ==============================================================
 */
-function CallRaw($procName, $parameters = null, $isExecute = false)
+function CallRaw($procName, $parameters = [], $isExecute = false)
 {
     /*$syntax = '';
     for ($i = 0; $i < count($parameters); $i++) {

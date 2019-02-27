@@ -18,31 +18,25 @@ $(document).ready(function(){
     
     $('#movimiento').selectpicker();
     
-    CargarEdoCuenta()
-	
+    get_registro_cliente()
 });
 
-/** ============
- *  Cargar el estado de cuenta
- *  ====================
- */
-function CargarEdoCuenta(){
+function get_registro_cliente(){
+    
     $.ajax({
-		url     : routes.urlJS+'clientes/get_edocuenta',
+		url     : routes.urlJS+'clientes/get_registro',
 		type    : 'POST',
 		dataType: 'JSON',
-        data: {
-					fechainicio : '2019-01-01',
-                    fechafin    : moment().format("YYYY-MM-DD"),
-				},
+        data: {},
 		/* Si no hay errores de comunicación retorna success, aun cuando existan errores de validacion o de BD */
 		success : function (data) { 
 		  
 			/* Si la nueva UM se guardó sin problemas se le notifica al usuario  */
 			if (data['status'] == 'success')
 			{
+			     $.AdminBSB.form.fill("#frmClientes",data.data[0],exclude="")
 				/* Muestra jExcel con los datos recibidos */
-				$("#tab-content").html(pintaReporte(data));
+				//$("#tab-content").html(pintaReporte_cliente(data));
 			/* Si hubo algún error se muestra al usuario para su correción */
 			} else {
 				swal({
@@ -58,17 +52,18 @@ function CargarEdoCuenta(){
 		}
 	});
 }
+
 /** ============
  * 
  *  ====================
  */
-function pintaReporte(data){
+function pintaReporte_cliente(data){
     
     var datos=Object.keys(data.datos).map(function(j){
         return data.datos[j]
     });
     //
-    var tabla="<table id='tablapromedios' class='tablaremision table table-striped table-bordered dataTable no-footer' role='grid' style='width: 100%;font-size: 12px;'><thead><tr>";
+    var tabla="<table class='table table-striped table-bordered dataTable no-footer' role='grid' style='width: 100%;font-size: 12px;'><thead><tr>";
     
     for(i=0;i<data.headers.length;i++){
         if(data.headers[i]["concepto"].toLowerCase()!="id")
@@ -127,29 +122,30 @@ function pintaReporte(data){
  * Registra un movimiento
  * =========================================================================
  */
-function setMovimiento(){
-    var msg=validarForms();
-    if(msg==true){
+function set_registro_cliente(){
     
+    var msg=validarForms_cliente();
+    if(msg==true){
+        var formserialize=$("#frmClientes").serializeArray();
+        
         $.ajax({
-    		url     : routes.urlJS+'/clientes/set_movimiento',
+    		url     : routes.urlJS+'/clientes/set_registro',
     		type    : 'POST',
     		dataType: 'JSON',
             data: {
-    					clieprov: 1,
-    					fecha       : moment($("#fecha input").val(),"DD/MM/YYYY").format("YYYY-MM-DD"),
-                        cantidad    : $("#cantidad").val(),
-                        movimiento  : $("#movimiento").val(),
-                        concepto    : $("#concepto").val(),
-    				},
+                datos:formserialize,
+            },
     		/* Si no hay errores de comunicación retorna success, aun cuando existan errores de validacion o de BD */
     		success : function (data) { 
     		  
     			/* Si la nueva UM se guardó sin problemas se le notifica al usuario  */
     			if (data['status'] == 'success')
     			{
-    				/* Muestra jExcel con los datos recibidos */
-    				CargarEdoCuenta();
+    				swal({
+    					type : 'success',
+    					title: 'Cliente',
+    					html : data.msg,
+    				});
     			/* Si hubo algún error se muestra al usuario para su correción */
     			} else {
     				swal({
@@ -167,76 +163,17 @@ function setMovimiento(){
      }
 }
 
-/**=========================================================================
- * Quitar
- * =========================================================================
- */
 
-function quitarMovimiento($id){
-    Swal.fire({
-          title: 'Eliminar movimiento',
-          html: 'Escribe la palabra <b>eliminar</b> y posteriormente haz clic en el boton "Continuar"',
-          input: 'text',
-          inputAttributes: {
-            autocapitalize: 'off'
-          },
-          showCancelButton: true,
-          confirmButtonText: 'Continuar',
-          showLoaderOnConfirm: true,
-          allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-          if (result.value.toLowerCase()=="eliminar") {
-            $.ajax({
-        		url     : routes.urlJS+'/clientes/quitar_movimiento',
-        		type    : 'POST',
-        		dataType: 'JSON',
-                data: {
-        					id: $id,
-				},
-        		/* Si no hay errores de comunicación retorna success, aun cuando existan errores de validacion o de BD */
-        		success : function (data) { 
-        		  
-        			/* Si la nueva UM se guardó sin problemas se le notifica al usuario  */
-        			if (data['status'] == 'success')
-        			{
-        				/* Muestra jExcel con los datos recibidos */
-        				CargarEdoCuenta();
-        			/* Si hubo algún error se muestra al usuario para su correción */
-        			} else {
-        				swal({
-        					type : 'error',
-        					title: 'Existen errores de captura',
-        					html : data.msg,
-        				});
-        			}	
-        		},
-        		error: function(data) {
-        			/* Si existió algún otro tipo de error se muestra en la consola */
-        			console.log(data)
-        		}
-        	});
-          }
-        })
-    
-    
-}
 /**=========================================================================
  * Validar controles
  * =========================================================================
  */
 
-function validarForms(){
+function validarForms_cliente(){
     var msg="";
-    if($("#frmMovimientos")[0].checkValidity()) {
+    if($("#frmClientes")[0].checkValidity()) {
         return true;
    	} 
-    $("#frmMovimientos")[0].reportValidity();
+    $("#frmClientes")[0].reportValidity();
     return false;
-}
-/**=========================================================================
- * Regresar al menu de productos
- * =========================================================================
- */
-function regresar(){
-    window.location.href = routes.urlJS+"clientes/admin";
 }

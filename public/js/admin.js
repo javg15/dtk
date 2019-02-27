@@ -523,6 +523,104 @@ $.AdminBSB.dropdownMenu = {
         });
     }
 }
+
+/*** Controles del formulario*/
+$.AdminBSB.form={
+    fill:function(id_form,data,exclude=""){
+        for(var k in data){
+            if(exclude.indexOf(k)==-1){ //si el campo no está excluido
+                //Existe el elemento
+                
+                if($(id_form+' [name="'+k+'"]').length>0){
+                    if($(id_form+' [name="'+k+'"]').prop("tagName").toUpperCase()=="INPUT"){
+                        if($(id_form+' [name="'+k+'"]').hasClass("datepicker") && 
+                            (data[k]=="0000-00-00 00:00:00" || data[k]=="0000-00-00"))
+                            $(id_form+' [name="'+k+'"]').val();
+                        else
+                            $(id_form+' [name="'+k+'"]').val(data[k]);
+                    }
+                    else if($(id_form+' [name="'+k+'"]').prop("tagName").toUpperCase()=="SELECT")
+                        $(id_form+' [name="'+k+'"]').val(data[k]);
+                        
+                    else if($(id_form+' [name="'+k+'"]').prop("tagName").toUpperCase()=="LABEL")
+                        $(id_form+' [name="'+k+'"]').text(data[k]);
+                        
+                        
+                    /**** select ****/
+                    try{
+                        if($(id_form+' [name="'+k+'"]').prop("tagName").toUpperCase()=="SELECT")
+                            $(id_form+' [name="'+k+'"]').selectpicker("refresh");
+                    }catch(e){}
+                    
+                    /**** search input ****/
+                    if($(id_form+' [name="'+k+'"]').hasClass("search-input")){
+                        if(data['fkidesc_'+k]!='undefined' && data['fkidesc_'+k]!=undefined){
+                            $(id_form+' [name="' + k + '"]').attr("aria-id", data[k]);
+                            $(id_form+' [name="' + k + '"]').val(data[k] + "|" + data['fkidesc_'+k]);
+                        }
+                        else{
+                            $(id_form+' [name="' + k + '"]').attr("aria-id", '');
+                            $(id_form+' [name="' + k + '"]').val('')
+                        }
+                    }
+                }
+            }
+        }
+    },
+    reset:function(){
+        $(id_form+' .panel-form :text,'+id_form+' .panel-form [type="hidden"],'+id_form+' .panel-form :password,'+id_form+' .panel-form :file,'+id_form+' .panel-form')
+            .not(id_form+' [name="csrf_pyrlab"]')
+            .val('');
+        // de-select any checkboxes, radios and drop-down menus
+        $(id_form+' .panel-form :input').removeAttr('checked').removeAttr('selected');
+        
+        $(id_form+" select").each(function(){
+            //var select=$(this).attr("aria-control");
+           $(this).val("");
+          $(this).selectpicker("refresh");     
+        });
+        
+        $(id_form+" .search-input").each(function(){
+            //var select=$(this).attr("aria-control");
+           $(this).val("");
+           $(this).attr("aria-id",""); //controles de busqueda
+        });
+        
+        $(id_form+" label.error").each(function(){
+            $(this).hide();
+        })
+        
+        $(id_form+" label").each(function(){
+            if($(this).hasClass("form-control"))
+                $(this).text("");
+        })
+        
+        //Limpiar las tablas en caso de existir
+    },
+    serialize:function(id_form){
+        var $serialize;
+        //Cambia de formato los campos de fecha para que se vayan como "YYYY-MM-DD"
+        $(id_form+' .date-input').each(function(){
+            //var select=$(this).attr("aria-control");
+           $(this).attr("data-date",$(this).val());
+           var $date = moment($(this).val(),"DD/MM/YYYY").format("YYYY-MM-DD");
+           $(this).val($date)
+        });
+        
+        //Serializar
+        $serialize=$(id_form).serializeArray();
+        
+        //Devuelve el formato original de los campos fecha
+        $(id_form+' .date-input').each(function(){
+            //var select=$(this).attr("aria-control");
+           $(this).val($(this).attr("data-date"));
+        }); 
+        
+        return $serialize;
+    },
+}
+//==========================================================================================================================
+
 //==========================================================================================================================
 
 /* Browser - Function ======================================================================================================
