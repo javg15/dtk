@@ -33,8 +33,10 @@
 @section('scripts')
 @include('template.jsDataTable')
 <script>
+    
+    
     $(document).ready(function(){
-        load_main_content("{{ route('adminClientes') }}");
+        load_main_content({!! json_encode($ruta, JSON_HEX_TAG) !!});
         
         $(document).on('show.bs.modal', '.modal', function (event) {
             var zIndex = 1040 + (10 * $('.modal:visible').length);
@@ -44,6 +46,8 @@
                 $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
             }, 0);
         });
+        
+        
     });
     
     function load_main_content(ruta)

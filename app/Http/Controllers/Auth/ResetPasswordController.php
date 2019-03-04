@@ -34,6 +34,6 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');//Se cambió guest por auth
     }
 }

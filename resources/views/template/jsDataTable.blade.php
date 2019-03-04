@@ -7,5 +7,6 @@
     <script src="{{ asset('plugins/jquery-datatable/pdfmake-0.1.32/vfs_fonts.js') }}"></script>
     <script src="{{ asset('plugins/jquery-datatable/Buttons-1.5.1/js/buttons.html5.js') }}"></script>
     <script src="{{ asset('plugins/jquery-datatable/Buttons-1.5.1/js/buttons.print.js') }}"></script>
+    <!--<script src="{{ asset('plugins/jquery-datatable/extensions/export/buttons.print.min.js') }}"></script>-->
     <script src="{{ asset('plugins/jquery-datatable/Select-1.2.5/js/dataTables.select.min.js') }}"></script>
     <script src="{{ asset('plugins/jquery-datatable/plugins/sum.js') }}"></script>

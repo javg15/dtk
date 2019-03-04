@@ -38,13 +38,13 @@ class ClientesedocuentaController extends Controller
 	public function admin(Request $request)
 	{
 		/* El usuario debe estar loggeado */
-		/*if ( Auth::check() )
-		{*/
+		if ( Auth::check() )
+		{
 			
 			     return view('/clientes/admin');
-		/*} else {
+		} else {
 			return view('auth.login');
-		}*/
+		}
 	}
 
     /** 
@@ -57,8 +57,8 @@ class ClientesedocuentaController extends Controller
 	public function form(Request $request)
 	{
 		/* El usuario debe estar loggeado */
-		/*if ( Auth::check() )
-		{*/
+		if ( Auth::check() )
+		{
 
             //Existente
     		if($request->id>0 ){	
@@ -79,9 +79,9 @@ class ClientesedocuentaController extends Controller
                 
             return view('/clientes/clienteedocuenta');
             
-		/*} else {
+		} else {
 			return view('auth.login');
-		}*/
+		}
 	}    
     
     /** 
@@ -94,7 +94,7 @@ class ClientesedocuentaController extends Controller
 	public function get_edocuenta(Request $request)
 	{
 		/* Obtengo el id del usuario */
-		//$idUser    = Auth::user() -> id;
+		$idUser    = Auth::user() -> id;
 
         /* Reporte */
         $params = Array(Session::get('contratos_id'));
@@ -119,7 +119,7 @@ class ClientesedocuentaController extends Controller
 	public function set_edocuenta(Request $request)
 	{
 		/* Obtiene el id del usuario */
-		//$idUser = Auth::user() -> id;
+		$idUser = Auth::user() -> id;
         if(($res=$this->Validar_set_movimiento($request))["status"]){
             try{
     		     /* Se agregan los valores enviados por el usuario y se guarda en la BD */

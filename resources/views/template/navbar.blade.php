@@ -19,10 +19,10 @@
 					<!-- #END# Call Search -->
 					<!-- Notifications -->
 					<li class="dropdown">
-						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+						<!--<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
 							<i class="material-icons">notifications</i>
-							<span class="label-count">{{ $c }}</span>
-						</a>
+							<span class="label-count">{ $c }}</span>
+						</a>-->
 						<ul class="dropdown-menu">
 							<li class="header">Variables en la sesión</li>
 							<li class="body">
@@ -60,7 +60,7 @@
 							
 						</figure>
 						<div class="profile-info" data-lock-name="" data-lock-email="">
-							<span class="name">{{ 'hola' }} </span>
+							<span class="name">Hola  {{ Auth::user()->name}}</span>
 							<span class="role">Usuario</span>
 						</div>
 
@@ -70,22 +70,28 @@
 					<div class="dropdown-menu">
 						<ul class="list-unstyled">
 							<li class="divider"></li>
-							<li>
+							<!--<li>
 								<a role="menuitem" tabindex="-1" href="/usuario/editarInicio"><i class="fa fa-user"></i> Mi perfil</a>
 							</li>
-							<!--<li>
-								<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Bloquear pantalla</a>
+							<li>
+                                @if (Route::has('password.reset') 
+                                    AND (Auth::user()->rol=='admin'))
+                                    <a role="menuitem" tabindex="-1" href="{{ route('password.reset', ['token' => '123']) }}" data-lock-screen="true"><i class="fa fa-lock"></i> Reiniciar contraseña</a>
+                                @endif
 							</li>-->
 							<li>
 								<a
 									class   = "dropdown-item"
-									
+									href    = "{{ route('logout') }}"
 									onclick = "event.preventDefault();
-									document.getElementById('logout-form'.submit();"
+									document.getElementById('logout-form').submit();"
 								>
-									<i class="fa fa-power-off"></i> {{ 'salir' }}<!--salir-->
+									<i class="fa fa-power-off"></i> Salir<!--messages.salir-->
 								</a>
 							</li>
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								@csrf
+							</form>
 							
 						</ul>
 					</div>

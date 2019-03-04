@@ -19,7 +19,8 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Bootstrap Core Css -->
-    <link href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet" >
+    
 
     <!-- Waves Effect Css -->
     <link href="{{ asset('plugins/node-waves/waves.css') }}" rel="stylesheet" />

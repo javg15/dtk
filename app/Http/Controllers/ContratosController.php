@@ -38,8 +38,8 @@ class ContratosController extends Controller
 	public function admin(Request $request)
 	{
 		/* El usuario debe estar loggeado */
-		/*if ( Auth::check() )
-		{*/   
+		if ( Auth::check() )
+		{   
             
                 if($request->id>0 ){//Cliente activo
                     
@@ -56,9 +56,9 @@ class ContratosController extends Controller
                 }
 			
 			     return view('/clientes/contratoadmin');
-		/*} else {
+		} else {
 			return view('auth.login');
-		}*/
+		}
 	}
 
     /** 
@@ -71,8 +71,8 @@ class ContratosController extends Controller
 	public function form(Request $request)
 	{
 		/* El usuario debe estar loggeado */
-		/*if ( Auth::check() )
-		{*/
+		if ( Auth::check() )
+		{
 
             //Existente
     		if($request->id>0 ){	
@@ -93,9 +93,9 @@ class ContratosController extends Controller
                 
             return view('/clientes/contrato');
             
-		/*} else {
+		} else {
 			return view('auth.login');
-		}*/
+		}
 	}    
         
     /** 
@@ -132,8 +132,8 @@ class ContratosController extends Controller
 	public function get_registro(Request $request)
 	{
 		/* El usuario debe estar loggeado */
-		/*if ( Auth::check() )
-		{*/
+		if ( Auth::check() )
+		{
             $id=Session::get('contratos_id');
             
             //registro
@@ -155,9 +155,9 @@ class ContratosController extends Controller
     			'status'    => 'success',
     		]);
             
-		/*} else {
+		} else {
 			return view('auth.login');
-		}*/
+		}
 	}
     
     /** 
@@ -171,7 +171,7 @@ class ContratosController extends Controller
 	{
 	   
 	/* Obtiene el id del usuario */
-		//$idUser = Auth::user() -> id;
+		$idUser = Auth::user() -> id;
         //if(($res=$this->Validar_set_movimiento($request))["status"]){
             try{
                 $contrato_id=Session::get("contratos_id");

@@ -65,6 +65,12 @@ function pintaAdmin_clienteadmin(data){
     for(var i=0;i<header.length;i++){
         if(header[i]["render"]!=undefined){
             switch(header[i]["render"]){
+                case "status":header[i]["render"]=function ( data, type, full, meta ) {
+                    
+                        if(full.State=="A")
+                            return '<span class="label bg-green">Activo</span>'
+                    }
+                    break;
                 case "moneda":header[i]["render"]=$.fn.dataTable.render.number( ',', '.', 2,'$' );
                             break;
                 case "botones":
@@ -115,9 +121,13 @@ function pintaAdmin_clienteadmin(data){
         }
     }
 
+    /*if ($.fn.DataTable.isDataTable( '#tablaadmin_clienteadmin' ) ) 
+        $('#tablaadmin_clienteadmin').dataTable().api().clear();*/
+
     //
     $('#tablaadmin_clienteadmin').DataTable( {
-            dom: 'Bfrtip',
+            //dom: 'Bfrtip',
+            dom: '<"top">Bfrtip<"bottom"><"clear">',
             destroy: true,
             //serverSide: true,
             buttons: [

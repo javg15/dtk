@@ -85,7 +85,7 @@ function _typeof(n) {
                     customToggle: null,
                     insertClose: !0,
                     insertBack: !0,
-                    labelClose: "Cerrar",
+                    labelClose: "Cerrar menú",
                     labelBack: "Atrás"
                 }, n),
                 E = [],

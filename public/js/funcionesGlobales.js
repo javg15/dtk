@@ -76,4 +76,14 @@ function restoreBootstrapModal() {
   modalNode.classList.remove('js-swal-fixed');
 }
 
- 
+/*****
+** modo=1->entero,modo=2->string
+*/
+function GetVar(variable,modo=1) {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    var dato=vars[variable];
+    return (dato==undefined?(modo==1?0:""):vars[variable]); 
+}

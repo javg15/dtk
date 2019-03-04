@@ -38,13 +38,13 @@ class ClientesController extends Controller
 	public function admin(Request $request)
 	{
 		/* El usuario debe estar loggeado */
-		/*if ( Auth::check() )
-		{*/
+		if ( Auth::check() )
+		{
 			
 			     return view('/clientes/clienteadmin');
-		/*} else {
+		} else {
 			return view('auth.login');
-		}*/
+		}
 	}
     
 
@@ -58,8 +58,8 @@ class ClientesController extends Controller
 	public function form(Request $request)
 	{
 		/* El usuario debe estar loggeado */
-		/*if ( Auth::check() )
-		{*/
+		if ( Auth::check() )
+		{
 
             //Existente
     		if($request->id>0 ){	
@@ -81,9 +81,9 @@ class ClientesController extends Controller
                 
             return view('/clientes/cliente');
             
-		/*} else {
+		} else {
 			return view('auth.login');
-		}*/
+		}
 	}    
     /** 
 	 * ==================================================================== 
@@ -95,7 +95,7 @@ class ClientesController extends Controller
 	public function get_admin(Request $request)
 	{
 		/* Obtengo el id del usuario */
-		//$idUser    = Auth::user() -> id;
+		$idUser    = Auth::user() -> id;
         
         //$res = DB::select($sql, ['id_cliente'=>$request->$id]);
         //$res = DB::select($sql);
@@ -122,8 +122,8 @@ class ClientesController extends Controller
 	public function get_registro(Request $request)
 	{
 		/* El usuario debe estar loggeado */
-		/*if ( Auth::check() )
-		{*/
+		if ( Auth::check() )
+		{
             $id=Session::get('clientes_id');
             
             $sql='SELECT id,icode,idesc,calle
@@ -138,9 +138,9 @@ class ClientesController extends Controller
     			
     		]);
             
-		/*} else {
+		} else {
 			return view('auth.login');
-		}*/
+		}
 	}
 
         
@@ -155,7 +155,7 @@ class ClientesController extends Controller
 	{
 	   
 	/* Obtiene el id del usuario */
-		//$idUser = Auth::user() -> id;
+		$idUser = Auth::user() -> id;
         //if(($res=$this->Validar_set_movimiento($request))["status"]){
             try{
                 $cliente_id=Session::get("clientes_id");
@@ -196,68 +196,5 @@ class ClientesController extends Controller
     		]);
         }*/
 	}
-    
-    /** 
-	 * ==================================================================== 
-	 * Quitar movimientos
-	 * 
-	 * @author Jaime VÃ¡zquez
-	 * ====================================================================
-	*/
-    public function quitar_movimiento(Request $request)
-	{
-        
-	       try{
-	           $objeto = Clieprovedocuenta::where('id', $request["id"])
-				    ->first();
-                if ( $objeto != null ){
-                        
-                    $objeto["state"]="E";
-                    //var_dump($objeto);
-            		$objeto -> save();
-                    
-                    /* Regreso la respuesta exitosa  */
-            		return response() -> json([
-            			'status'  => 'success',
-            			'msg'     => 'Movimiento eliminado con éxito.',
-            		]);
-                }
-                else{
-                    /* Regreso la respuesta exitosa  */
-            		return response() -> json([
-            			'status'  => 'error',
-            			'msg'     => 'Error al intentar eliminar el registro.',
-            		]);
-                }
-    		}
-    		catch (Exception $e) { return $e->getMessage();	}
-    
-    		
-    
-    		
-    }
-    
-     /** 
-	 * ==================================================================== 
-	 * Validar entrada de datos
-	 * 
-	 * @author Jaime VÃ¡zquez
-	 * ====================================================================
-	*/
-	public function Validar_set_movimiento(Request $request)
-	{
-	   $msg='';
-
-       if(!(validateDate($request["fecha"])))$msg.="<li>Fecha inválida</li>";
-       if(!($request["movimiento"]>0))$msg.="<li>El tipo de movimiento es inválido<br>";
-       if(!(strlen($request["concepto"]))>0)$msg.="<li>Concepto inválido</li>";
-       
-       if($msg!='')
-            return Array("msg"=>'<ul>'.$msg.'</ul>',"status"=>false);  
-       
-       return Array("status"=>true);
-    }
-     
-       
     
 }
