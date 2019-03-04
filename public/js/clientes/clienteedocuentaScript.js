@@ -86,9 +86,9 @@ function pintaReporte_clienteedocuenta(data){
         var clase="";
         tabla+="<tr>";
         for(j=0;j<data.headers.length;j++){
-            var concepto=data.headers[j]["concepto"].toLowerCase();
+            var concepto=data.headers[j]["concepto"];//.toLowerCase();
             //Mostrar en la etiqueta el primer saldo
-            if(concepto=='saldo'){
+            if(concepto.toLowerCase()=='saldo'){
                 if(i==datos.length-1)
                     $("#saldofinal").html(numeral(datos[i][concepto]).format('$ 0,0.00'));
                 if(datos[i]["mostrar"]==1)//"mostrar" significa si esta vigente de acuerdo a la fecha
@@ -100,7 +100,7 @@ function pintaReporte_clienteedocuenta(data){
             
                 
             if(concepto.toLowerCase()!="id"){
-                if(concepto=='concepto'){
+                if(concepto.toLowerCase()=='concepto'){
                     
                     posstyle=datos[i][concepto].indexOf("<class>");
                     if(posstyle>=0){
@@ -111,7 +111,7 @@ function pintaReporte_clienteedocuenta(data){
                     
                     tabla+="<td class='"+clase+"'>"+datos[i][concepto]+"</td>"
                 }
-                else if(concepto=='fecha'){
+                else if(concepto.toLowerCase()=='fecha'){
                     tabla+="<td class='"+clase+"'>"+datos[i][concepto]+"</td>"
                 }
                 else{
@@ -122,7 +122,7 @@ function pintaReporte_clienteedocuenta(data){
                 }
             }
         }
-        if(datos[i]["cargo"]==0)
+        if(datos[i]["Cargo"]==0)
             tabla+='<td style="text-align:center;"><button type="button" class="btn bg-red waves-effect" onclick="javascript:quitarMovimiento('+ datos[i]["id"] +')">'
 					+'<span>Eliminar</span>'
 				   +'</button></td>';
