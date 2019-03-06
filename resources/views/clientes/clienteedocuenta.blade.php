@@ -22,7 +22,7 @@
                 <form id="frmMovimientos" class="formpage">
         			<div class="row clearfix">
                         <div class="col-sm-2">
-                            <h5 class="form-label">Fecha</h5>
+                            <h5 class="form-label">Fecha(*)</h5>
                             <div class="form-group">
                                 <div class='input-group date form-line' id='fecha'>
                                     <input type='text' class="form-control" required />
@@ -35,7 +35,7 @@
                         
         
         				<div class="col-sm-2 ">
-        					<h5 class="form-label">Cantidad</h5>
+        					<h5 class="form-label">Cantidad(*)</h5>
                             <div class="form-group form-float">
             					<div class="form-line">
             						<input 
@@ -52,7 +52,7 @@
             				</div>
         				</div>
                         <div class="col-sm-4 ">
-        					<h5 class="form-label">Concepto</h5>
+        					<h5 class="form-label">Concepto(*)</h5>
                             <div class="form-group form-float">
             					<div class="form-line">
             						<input 

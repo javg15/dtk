@@ -18,7 +18,11 @@
                 </div>
 			</div>
 			<div class="modal-body">
-                <form id="frmClientes">
+                <form id="frmClientes"
+                data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                >
                     <div class="row clearfix">
                         <div class="col-sm-2">
                             <h5 class="form-label">Clave</h5>
@@ -37,7 +41,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <h5 class="form-label">Nombre</h5>
+                            <h5 class="form-label">Nombre(*)</h5>
                             <div class="form-group form-group-sm">
                                 <div class="input-group form-line">
                                     <input class="form-control" name="idesc"   required=""/>
@@ -52,6 +56,39 @@
                             <div class="form-group form-group-sm">
                                 <div class="input-group form-line">
                                     <input class="form-control" name="calle"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row clearfix">
+                        <div class="col-sm-4">
+                                <input type="checkbox" id="crearcuenta" name="crearcuenta" class="filled-in">
+                                <label for="crearcuenta">¿Editar cuenta de acceso?</label>
+                        </div>
+                    </div>
+                    <div class="row clearfix" id="divcuentas">
+                        <div class="col-sm-4">
+                            <h5 class="form-label">Cuenta de correo(*)</h5>
+                            <div class="form-group form-group-sm">
+                                <div class="input-group form-line">
+                                    <input class="form-control" name="email"
+                                        data-bv-callback="true"
+                                        data-bv-callback-message="Dato requerido"
+                                        data-bv-callback-callback="checkUser"  
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <h5 class="form-label">Contraseña(*)</h5>
+                            <div class="form-group form-group-sm">
+                                <div class="input-group form-line">
+                                    <input class="form-control" name="password" type="password"
+                                        data-bv-callback="true"
+                                        data-bv-callback-message="Dato requerido y mayor a 6 caracteres"
+                                        data-bv-callback-callback="checkPassword"  
+                                    />
                                 </div>
                             </div>
                         </div>

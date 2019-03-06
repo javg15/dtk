@@ -18,6 +18,20 @@ $(document).ready(function(){
     
     $('#movimiento').selectpicker();
     
+    $("#crearcuenta").on("change",function(){
+        if($("#crearcuenta").is(":checked")){
+            $("#divcuentas").show()    
+        }
+        else
+            $("#divcuentas").hide()
+        
+    })
+    $("#divcuentas").hide();
+    
+    //declarar validaciones
+    $('#frmClientes').bootstrapValidator();
+;
+        
     get_registro_cliente()
 });
 
@@ -123,9 +137,9 @@ function pintaReporte_cliente(data){
  * =========================================================================
  */
 function set_registro_cliente(){
+    $("#frmClientes").bootstrapValidator('validate');
     
-    var msg=validarForms_cliente();
-    if(msg==true){
+    if($("#frmClientes").data('bootstrapValidator').isValid()){
         var formserialize=$("#frmClientes").serializeArray();
         
         $.ajax({
@@ -170,10 +184,34 @@ function set_registro_cliente(){
  */
 
 function validarForms_cliente(){
-    var msg="";
+    /*
     if($("#frmClientes")[0].checkValidity()) {
         return true;
    	} 
     $("#frmClientes")[0].reportValidity();
-    return false;
+    return false;*/
+    
+    
+    
+    
 }
+
+// IMPORTANT NOTICE: You have to declare the callback as a global function
+// outside of $(document).ready()
+function checkUser(value, validator) {
+    if($("#crearcuenta").is(":checked")){
+        if($("[name='email']").val().length<=6)
+            return false;
+    }
+    
+    return true;
+};
+
+function checkPassword(value, validator) {
+    if($("#crearcuenta").is(":checked")){
+        if($("[name='password']").val().length<=6)
+            return false;
+    }
+    
+    return true;
+};

@@ -211,7 +211,7 @@ function pintaReporte(data){
                     {sClass : "text-right",targets:data.align_right[0]},
                     {sClass : "text-center",targets:-1}
             ],
-            //order: [[ 0, "desc" ]]
+            order: [[ 1, "asc" ]]
         } 
     );
 }

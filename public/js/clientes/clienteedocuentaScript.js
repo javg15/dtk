@@ -79,7 +79,7 @@ function pintaReporte_clienteedocuenta(data){
     tabla +="<tbody>";
     for(i=0;i<datos.length;i++){
         if(i==0){
-            $("#cantidad").val(datos[i]["cargo"]);//Valor por default
+            $("#cantidad").val(datos[i]["Cargo"]);//Valor por default
             $("#concepto").val('');//Valor por default
         }
         
@@ -123,7 +123,7 @@ function pintaReporte_clienteedocuenta(data){
             }
         }
         if(datos[i]["Cargo"]==0)
-            tabla+='<td style="text-align:center;"><button type="button" class="btn bg-red waves-effect" onclick="javascript:quitarMovimiento('+ datos[i]["id"] +')">'
+            tabla+='<td style="text-align:center;"><button type="button" class="btn bg-red waves-effect" onclick="javascript:quitarMovimiento('+ datos[i]["ID"] +')">'
 					+'<span>Eliminar</span>'
 				   +'</button></td>';
         tabla+="</tr>";
@@ -222,7 +222,7 @@ function quitarMovimiento($id){
         			} else {
         				swal({
         					type : 'error',
-        					title: 'Existen errores de captura',
+        					title: 'Existen errores',
         					html : data.msg,
         				});
         			}	

@@ -67,12 +67,13 @@ class ReportesController extends Controller
             }
             else{
                 $idUser = Auth::user() -> id; 
-                               
-                $sql='SELECT id,icode,idesc
-                        FROM `clieprovs`
-                        WHERE id=:id_cliente    
-                            AND state IN("A","B")';
-                $res = DB::select($sql,["id_cliente"=>$idUser]);                                                                            
+                       
+                $sql='SELECT cl.id,cl.icode,cl.idesc
+                        FROM `clieprovs` as cl
+                            LEFT JOIN users AS u ON cl.id=u.id_clieprovs
+                        WHERE u.id=:id_user    
+                            AND cl.state IN("A","B")';
+                $res = DB::select($sql,["id_user"=>$idUser]);                                                                            
             }
             
                 
@@ -97,8 +98,12 @@ class ReportesController extends Controller
                             AND state IN("A","B")';	  	
                             	  
             if (Auth::user()->rol == 'admin') {
-                $idUser = Auth::user() -> id;
-                $res = DB::select($sql,["id_clieprovs"=>$idUser]);                
+                if($request->id_cliente>0)
+                    $res = DB::select($sql,["id_clieprovs"=>$request->id_cliente]);
+                else{
+                    $idUser = Auth::user() -> id;
+                    $res = DB::select($sql,["id_clieprovs"=>$idUser]);
+                }
             }
             else{
                 $res = DB::select($sql,["id_clieprovs"=>$request->id_cliente]);

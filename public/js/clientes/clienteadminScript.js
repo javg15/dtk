@@ -144,7 +144,7 @@ function pintaAdmin_clienteadmin(data){
                     text:      'Nuevo',
                     titleAttr: 'Nuevo',
                     action: function ( e, dt, node, config ) {
-                        addJSmain(routes.urlJS+'clientes/form','#clientes_modal',CargarAdmin_clienteadmin)                    
+                        addJSmain(routes.urlJS+'clientes/form/?id=-1','#clientes_modal',CargarAdmin_clienteadmin)                    
                     }
                 },
             ],

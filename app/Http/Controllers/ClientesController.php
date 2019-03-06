@@ -15,10 +15,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Helpers;
 
 //use App\Producto, App\Catum, App\User, App\Etapa, App\Nomina;
-use App\Clieprov;
+use App\Clieprov,App\User;
 use Auth, View, Session, Lang, Route;
 
 
@@ -75,7 +76,7 @@ class ClientesController extends Controller
                     Session::put('clientes_idesc',$res[0]->idesc);
             }
             else{//Nuevo
-                Session::put('clientes_id',0);
+                Session::put('clientes_id',-1);
                 Session::put('clientes_idesc','Nuevo');
             }
                 
@@ -126,9 +127,10 @@ class ClientesController extends Controller
 		{
             $id=Session::get('clientes_id');
             
-            $sql='SELECT id,icode,idesc,calle
-                    FROM `clieprovs`
-                    WHERE id=:clientes_id';
+            $sql='SELECT c.id,c.icode,c.idesc,c.calle,u.`email`
+                    FROM `clieprovs` AS c
+	                   LEFT JOIN `users` AS u on c.id=u.id_clieprovs
+                    WHERE c.id=:clientes_id';
             $res = DB::select($sql, ['clientes_id'=>$id]);
             
             /* Regreso la respuesta exitosa con el total para actualizar el nÃºmero en la vista  */
@@ -164,19 +166,49 @@ class ClientesController extends Controller
     			if ( $obj == null ){
     			     /* Se agregan los valores enviados por el usuario y se guarda en la BD */
             		$obj   = new Clieprov();
-                    
-                    //$obj["id_user"]=$idUser;
                 }
+                
+                $usr = User::where('id_clieprovs', $cliente_id)
+    				    ->first();
+                if($usr==null){
+                    $usr    = new User();
+                    $usr["email"]="";
+                }
+                    
                 //Leer el json del excel
                 $d=$request["datos"];
                 for($i=0;$i<count($d);$i++){
                     //Llenar el arreglo segun el nombre de campo con el valor de las columna 2 del JExcel
-                    if($d[$i]["value"]!=null)
-                        $obj[$d[$i]["name"]]= $d[$i]["value"];
+                    if($d[$i]["value"]!=null){
+                        if($d[$i]["name"]=="email")
+                            $usr[$d[$i]["name"]]=$d[$i]["value"];
+                        elseif($d[$i]["name"]=="password"){
+                            $usr[$d[$i]["name"]]=Hash::make($d[$i]["value"]);     
+                        }
+                        elseif($d[$i]["name"]!="crearcuenta"){
+                            $obj[$d[$i]["name"]]= $d[$i]["value"];
+                        }
+                    }
                 }
                 
+                if($usr["email"]!=""){ //Si se requiere cuenta de usuario
+                    //Validar que no exista la cuenta de correo
+                    $usrvalid = User::where([['email','=',$usr["email"]],["id_clieprovs",'<>',$cliente_id]])
+    				    ->first();
+                    
+                    if($usrvalid !=null){
+                        return response() -> json([
+                			'status'  => 'error',
+                			'msg'     => 'La cuenta de correo electrónico ya se encuentra registrada.',
+                		]);
+                    }
+                }
+                    
         		$obj -> save();
-            
+                $usr["id_clieprovs"]=$obj["id"];
+                
+                if($usr["email"]!="") //Si se requiere cuenta de usuario
+                    $usr->save();
     		     
     		}
     		catch (Exception $e) { return $e->getMessage();	}

@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <h5 class="form-label">Concepto</h5>
+                                <h5 class="form-label">Concepto(*)</h5>
                                 <div class="form-group form-group-sm">
                                     <div class="input-group form-line">
                                         <input class="form-control" name="idesc"   required=""/>
@@ -42,7 +42,7 @@
                     </div>
         			<div class="row clearfix">
                         <div class="col-sm-2">
-                            <h5 class="form-label">Fecha de inicio</h5>
+                            <h5 class="form-label">Fecha de inicio(*)</h5>
                             <div class="form-group form-group-sm">
                                 <div class='input-group date form-line' id='fechainicio'>
                                     <input name="fechainicio" type='text' class="form-control date-input" required />
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <h5 class="form-label">Parcialidades (meses)</h5>
+                            <h5 class="form-label">Parcialidades en meses (*)</h5>
                             <div class="form-group form-group-sm">
                                 <div class="input-group form-line">
                                     <select id="numparcialidades" name="numparcialidades" class="selectpicker" required>
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <h5 class="form-label">Total del contrato</h5>
+                            <h5 class="form-label">Total del contrato(*)</h5>
                             <div class="form-group form-group-sm">
                                 <div class="input-group form-line">
                                     <input 
@@ -85,7 +85,7 @@
                             </div>
         				</div>
         				<div class="col-sm-2">
-                            <h5 class="form-label">Anticipo</h5>
+                            <h5 class="form-label">Anticipo(*)</h5>
                             <div class="form-group form-group-sm">
                                 <div class="input-group form-line">
                                     <input 
